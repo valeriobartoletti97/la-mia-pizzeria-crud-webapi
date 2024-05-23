@@ -1,6 +1,7 @@
 using la_mia_pizzeria_crud_mvc.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<PizzaContext>();
@@ -11,7 +12,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+//Serve per non far fare cicli sul json e per farci tornare dall'api un oggetto con all'interno innestato un altro oggetto (ALTRIMENTI DA ERRORE!!)
+builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

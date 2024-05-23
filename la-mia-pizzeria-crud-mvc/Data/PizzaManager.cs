@@ -14,14 +14,14 @@ namespace la_mia_pizzeria_crud_mvc.Data
         public static List<Pizza> GetAllPizza()
         {
             using PizzaContext db = new PizzaContext();
-            return db.Pizzas.ToList();
+            return db.Pizzas.Include(p => p.Category).Include(p => p.Ingredients).ToList();
         }
 
         public static Pizza GetPizza(int id, bool WithCategories = true)
         {
             using PizzaContext db = new PizzaContext();
             if(WithCategories)
-                return db.Pizzas.Where(p => p.Id == id).Include(p => p.Category).Include(p => p.Ingredients).FirstOrDefault();
+                return db.Pizzas.Where(p => p.Id == id).Include(p => p.Category).Include(p => p.Ingredients).First();
             return db.Pizzas.FirstOrDefault(p => p.Id == id);
         }
 
