@@ -1,0 +1,68 @@
+﻿@using la_mia_pizzeria_crud_mvc.Data
+@model List<Pizza>
+
+<div class="text-center pt-5 pb-2">
+    <h2 class="text-uppercase fw-bold">Pizze</h2>
+</div>
+<div class="container my-bg pb-3" id="main-content">
+    <div class="row justify-content-center gap-4">
+        @* Pizza cards *@
+        @{
+            foreach (Pizza pizza in @Model)
+            {
+                <div class="col-5 d-flex my-card position-relative mt-2">
+
+                    <div class="img-box py-2">
+                        <img src="~/img/@pizza.Image" alt="pizza.Name" class="pizza-img" />
+                    </div>
+                    <div class="pizza-description px-3 pt-2">
+                        <h3>@pizza.Name</h3>
+                        <p class="overflow-hidden pizza-title">@pizza.Description</p>
+                    </div>
+                    <div class="pizza-price position-absolute">
+                        <div class="d-flex align-items-center">
+                            <span class="fs-4 me-2 d-block ">
+                                @pizza.Price&euro;
+                            </span>
+                            <div class="d-flex gap-1">
+                                <span>
+                                    <i class="fa-solid fa-cart-shopping shop-icon"></i>
+                                </span>
+                                <span>
+                                    <a href="@Url.Action("GetPizza", "Pizza", new { id = pizza.Id})">
+                                        <i class="fa-solid fa-eye show-icon"></i>
+                                    </a>
+                                </span>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <span>
+                                        <a href="@Url.Action("Update", "Pizza", new { id = pizza.Id})">
+                                            <i class="fa-solid fa-pen update-icon"></i>
+                                        </a>
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="delete-pizza-btn position-absolute">
+                            <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
+                                @Html.AntiForgeryToken()
+                                <button type="submit">
+                                    <i class="fa-solid fa-trash delete-icon"></i>
+                                </button>
+                            </form>
+                        </div>
+                    }
+                </div>
+            }
+        }
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="d-flex justify-content-center mt-5 ">
+                <a href="@Url.Action("Create", "Pizza")" class="btn btn-small btn-light text-uppercase fw-bold">Inserisci nuova pizza</a>
+            </div>
+        }
+    </div>
+</div>
