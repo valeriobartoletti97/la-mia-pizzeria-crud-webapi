@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
+using System.Xml.Linq;
 
 namespace la_mia_pizzeria_crud_mvc.Controllers
 {
@@ -23,7 +24,7 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetPizza(int id)
+        public IActionResult GetPizza(int id) // ...GetPizza?id=<<id>>
         {
             Pizza pizza = PizzaManager.GetPizza(id);
             if (pizza == null) 
@@ -38,6 +39,30 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         {
             PizzaManager.AddPizza(data, null);
             return Ok($"La pizza \"{data.Name}\" è stata creata!");
+        }
+
+        [HttpPut] 
+        public IActionResult UpdatePizza(int id, [FromBody] Pizza data) // ...UpdatePizza?id=<<id>>
+        {
+            var PizzaDaModificare = PizzaManager.GetPizza(id);
+            if (PizzaDaModificare == null)
+                return NotFound($"Errore la pizza {data.Name} non è stata trovata!");
+            return Ok(data);
+        }
+
+        [HttpDelete]
+        public IActionResult DeletePizza(int id) // ...UpdatePizza?id=<<id>>
+        {
+            Pizza pizza = PizzaManager.GetPizza(id);
+            if (pizza == null)
+            {
+                return NotFound("ERRORE! LA PIZZA NON E' STATA TROVATA");
+            }
+
+             var isDeleted = PizzaManager.DeletePizza(id);
+            if (!isDeleted)
+                return NotFound("Non è stato possibile eliminare la pizza");
+            return Ok($"La pizza {pizza.Name} è stata eliminata con successo");
         }
     }
 

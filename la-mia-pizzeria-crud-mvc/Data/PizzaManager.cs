@@ -21,7 +21,7 @@ namespace la_mia_pizzeria_crud_mvc.Data
         {
             using PizzaContext db = new PizzaContext();
             if(WithCategories)
-                return db.Pizzas.Where(p => p.Id == id).Include(p => p.Category).Include(p => p.Ingredients).First();
+                return db.Pizzas.Where(p => p.Id == id).Include(p => p.Category).Include(p => p.Ingredients).FirstOrDefault();
             return db.Pizzas.FirstOrDefault(p => p.Id == id);
         }
 
