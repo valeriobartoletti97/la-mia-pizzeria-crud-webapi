@@ -23,6 +23,7 @@
 </div>
 
 
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
@@ -74,11 +75,24 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="delete-pizza-btn position-absolute">
+                                    <button type="submit" onclick="deletePizzaById(${pizza.id})">
+                                        <i class="fa-solid fa-trash delete-icon"></i>
+                                    </button>
+                                </div>
                             </div>`;
                 });
             }
         });
     }
+
+    function deletePizzaById(id) {
+        axios.delete(`${baseApiUrl}DeletePizza?id=${id}`)
+            .then((res) => {
+                loadAllPizzas('');
+            });
+    }
+
     function searchPizza()
     {
         console.log(this.value);
