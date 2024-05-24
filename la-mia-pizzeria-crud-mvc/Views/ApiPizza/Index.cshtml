@@ -1,0 +1,91 @@
+﻿
+<div class="container my-bg pt-4" id="main-api-content">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-uppercase text-center mb-4">Le nostre pizze</h2>
+            <input type="text" class="search-by-name text-center form-control" placeholder="Cerca per nome" />
+        </div>
+        <div class="col text-black-center text-uppercase text-black d-none no-pizza-founded">
+            <h3>Non è stata trovata nessuna pizza</h3>
+        </div>
+    </div>
+    @* <div class="row">
+        <div class="my-bg pb-3 pizza-card-wrapper d-none">
+
+        </div>
+    </div> *@
+</div>
+<div class="container my-bg p-3" id="main-content">
+    <div class="row justify-content-center pizza-card-wrapper gap-4">
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    const baseApiUrl = "api/PizzaApi/";
+
+    //funzione axios che prende tutte le pizze dal db con filtro per nome
+    function loadAllPizzas(name)
+    {
+        //console.log("Init loadAllPizzas");
+        axios.get(`${baseApiUrl}GetPizzas`,
+        {
+            params:
+            {
+                name: name
+            }
+        }).then((response) => {
+            if (response.data.length == 0)
+            {
+                document.querySelector('.no-pizza-founded').classList.remove('d-none');
+                document.querySelector('.pizza-card-wrapper').classList.add('d-none');
+            }
+            else {
+                document.querySelector('.no-pizza-founded').classList.add('d-none');
+                let pizzaWrapper = document.querySelector('.pizza-card-wrapper');
+                pizzaWrapper.classList.remove('d-none');
+
+                pizzaWrapper.innerHTML = '';
+                response.data.forEach((pizza) => {
+                    console.log(pizza);
+                        pizzaWrapper.innerHTML += `
+                            <div class="col-5 d-flex my-card position-relative mt-2">
+
+                                <div class="img-box py-2">
+                                    <img src="/img/${pizza.image}" alt = "${pizza.name}" class="pizza-img" />
+                                </div>
+                                <div class="pizza-description px-3 pt-2">
+                                    <h3>${pizza.name}</h3>
+                                    <p class="overflow-hidden pizza-title">${pizza.description}</p>
+                                </div>
+                                <div class="pizza-price position-absolute">
+                                    <div class="d-flex align-items-center">
+                                        <span class="fs-4 me-2 d-block ">
+                                            ${pizza.price}&euro;
+                                        </span>
+                                        <div class="d-flex gap-1">
+                                            <span>
+                                                <i class="fa-solid fa-cart-shopping shop-icon"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                });
+            }
+        });
+    }
+    function searchPizza()
+    {
+        console.log(this.value);
+        loadAllPizzas(this.value)
+    }
+
+    //richiamo la funzione 
+    loadAllPizzas('')
+
+    //ogni volta che scrivo una lettera nella barra di ricerca viene chiamata la funzione di filtraggio loadAllPizzas attraerso la searchPizza
+    document.querySelector('.search-by-name').addEventListener('keyup', searchPizza)
+</script>

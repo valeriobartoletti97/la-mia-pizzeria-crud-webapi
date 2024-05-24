@@ -33,7 +33,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Pizza}/{action=Index}/{id?}");
+    pattern: "{controller=ApiPizza}/{action=Index}/{id?}");
 app.MapRazorPages();
 PizzaManager.Seed();
 app.Run();
