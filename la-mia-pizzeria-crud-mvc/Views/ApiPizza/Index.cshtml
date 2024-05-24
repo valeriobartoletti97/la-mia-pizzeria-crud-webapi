@@ -1,22 +1,24 @@
-﻿
-<div class="container my-bg pt-4" id="main-api-content">
+﻿<div class="container my-bg pt-4" id="main-api-content">
     <div class="row">
         <div class="col">
-            <h2 class="text-uppercase text-center mb-4">Le nostre pizze</h2>
+            <h2 class="text-uppercase text-center mb-4 fw-bold">Le nostre pizze</h2>
             <input type="text" class="search-by-name text-center form-control" placeholder="Cerca per nome" />
         </div>
         <div class="col text-black-center text-uppercase text-black d-none no-pizza-founded">
             <h3>Non è stata trovata nessuna pizza</h3>
         </div>
     </div>
-    @* <div class="row">
-        <div class="my-bg pb-3 pizza-card-wrapper d-none">
-
-        </div>
-    </div> *@
 </div>
 <div class="container my-bg p-3" id="main-content">
     <div class="row justify-content-center pizza-card-wrapper gap-4">
+    </div>
+</div>
+<div class="container">
+    <div class="row p-3">
+        <div class="col d-flex justify-content-center">
+            <a href="@Url.Action("Create", "ApiPizza")" class="btn btn-small btn-light">Crea pizza</a>
+        </div>
+    </div>
     </div>
 </div>
 

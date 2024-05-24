@@ -1,0 +1,59 @@
+﻿﻿<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center text-uppercase fw-bold">Crea Pizza</h2>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form onsubmit="createPizza(event)" method="post">
+                    <div class="mb-3">
+                        <strong>Nome:</strong>
+                        <input id="pizza-name" type="text" class="d-block w-100 form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <strong>Descrizione:</strong>
+                        <input id="pizza-description" type="text" class="d-block w-100 form-control is-invalid" />
+                    </div>
+                    <div class="mb-3">
+                        <strong>Immagine:</strong>
+                        <input id="pizza-image" type="text" class="d-block w-100 form-control is-invalid" />
+                    </div>
+                    <div class="mb-3">
+                        <strong>Prezzo:</strong>
+                        <input id="pizza-price" type="number" class="d-block w-100 form-control is-invalid" />
+                    </div>
+                    <div class="p-3 d-flex justify-content-center">
+                        <input type="submit" class="btn btn-small btn-light" value="Crea"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    function createPizza(evt) {
+        evt.preventDefault();
+        let name = document.getElementById('pizza-name').value;
+        let description = document.getElementById('pizza-description').value;
+        let image = document.getElementById('pizza-image').value;
+        let price = document.getElementById('pizza-price').value;
+
+
+        axios.post('/api/PizzaApi/CreatePizza', {
+            name: name,
+            description: description,
+            image: image,
+            price: price
+        })
+            .then(function (response) {
+                console.log(response);
+                window.location.href = "/";
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+</script>

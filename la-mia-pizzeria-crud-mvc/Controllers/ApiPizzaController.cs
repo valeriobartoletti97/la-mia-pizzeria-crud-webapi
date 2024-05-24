@@ -8,5 +8,10 @@ namespace la_mia_pizzeria_crud_mvc.Controllers
         {
             return View();
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
